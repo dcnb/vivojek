@@ -1,0 +1,110 @@
+body {font-family: 'Oswald', sans-serif;background:url(http://contentdm.lib.uidaho.edu//mockup/newboot/sos.PNG) repeat scroll 0 0 transparent;}
+p, li {max-width:700px}
+.container{
+width:85%;
+margin:0% auto;
+}
+a {color:#149c82;text-decoration:none; }
+.part-a, .part-b, .part-c, .part-d{width:80%; margin:4%; }
+#part-a-content, #part-b-content, #part-c-content, #part-d-content, #part-e-content, #part-f-content, #part-g-content{max-width:100%;display:none;}
+.text {width:50%; margin:3%;}
+.closeup{display:none;font-size:smaller; min-width:40%; width:40%;}
+.opendown{font-size:smaller; margin-bottom:5px}
+
+a:hover{color:	#0C5E4E;text-decoration:underline; }
+
+.center{text-align:center;}
+
+
+.longbio{
+display:none;}
+#shorter{
+display:none;}
+
+.nav a{
+margin-right:2%;
+font-weight: 400;}
+
+
+.goaway{float:right; margin:4%; width:40%;}
+
+.goaway img {max-height: 350px;}
+
+
+#myname{color:#0C5E4E}
+
+.behind {
+  font-family: helvetica;
+  font-size: 40px;
+  font-style: italic;
+  margin-top: -100px;
+  color: white;
+  z-index: -10;
+  opacity: 0.95;
+  text-align: center;
+  cursor: pointer;
+  background: #9D9595;
+}
+
+
+
+.image {float:left;
+margin:3%;
+padding:2%;
+
+}
+.image img{
+max-height:200px;
+
+}
+
+.image:hover, .image img:hover{
+z-index:-11;
+outline:blue dotted 1px;
+}
+
+.behind a{
+color:white;
+}
+
+.behind a:visited{color:white;}
+.behind a:hover{
+text-decoration:none;}
+.righttxt{text-align:right;}
+
+ul {list-style:none;}
+#fromemail, #subjectemail{display:none;}
+a#email{
+display:none;
+color:#333;;
+text-decoration:none;
+font-size:13px;}
+
+#email {display:none;}
+ #poemoff{display:none;}
+//.line{display:none;}
+
+p, input{font-size: 14px;
+    font-family: 'Lucida Grande';
+    font-weight:normal;
+}
+.titleline{font-size:20px;}
+select{font-size:15px;}
+//.breaker-off, {display: none;}
+
+.em1{margin-left:1em;}
+.em2{margin-left:2em;}
+.em3{margin-left:3em;}
+.em4{margin-left:4em;}
+.em5{margin-left:5em;}
+.em6{margin-left:6em;}
+.em7{margin-left:7em;}
+.em8{margin-left:8em;}
+.em9{margin-left:9em;}
+.em10{margin-left:10em;}
+.em11{margin-left:11em;}
+.em12{margin-left:12em;}
+.em13{margin-left:13em;}
+.em14{margin-left:14em;}
+.em15{margin-left:15em;}
+.em16{margin-left:16em;}

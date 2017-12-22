@@ -1,0 +1,90 @@
+---
+layout: default
+---
+<h3 class="nav">
+
+<a href="#poemon" id="poemon">Check the Original</a>
+<a href="#" id="poemoff">Back to the Forme </a>
+
+
+<form action="{{ "/play/jqueryajaxform/" | prepend: site.baseurl }}" method="post" id="sendEmail">
+		<h4>Forme for {{ page.author }}'s "{{ page.title }}"</h4>
+
+		<ul class="forms" >
+			<li><label for="emailTo">Send this Forme To: </label><input type="text" name="emailTo" id="emailTo" value="" /></li>
+			<li id="fromemail"><label for="emailFrom">From</label><input type="text" name="emailFrom" id="emailFrom" value="devinbecker@gmail.com" /></li>
+
+			<li id="subjectemail"><label for="subject">Subject</label><input type="text" name="subject" id="subject" value="Forme for {{ page.title }}" /></li>
+
+<p class="form">
+<br class="breaker" /><br/>
+<span class="line titleline" id="title">{{ page.title }}</span><br class="breaker-off"/>
+<input type="text" class="titleline" id="titleinput"/><br class="breaker"/>
+<br />
+{% for line in page.lines %}
+{% if line.numbered-stanza %}<p class="em4">{{line.numbered-stanza}}</p>{% else %}{% endif %}
+<span class="line {% if line.indent %}em{{line.indent}}{% else %}{% endif %}" id="line{{ forloop.index }}" >{{ line.text }}</span><br class="breaker-off"/>
+<input type="text" id="line{{ forloop.index }}-forme"  style="width:{{ line.length }}em;" class="{% if line.indent %}em{{line.indent}}{% else %}{% endif %}"><br class="breaker" />
+{% if line.break %}<br />{% else %}{% endif %}
+
+{% endfor %}
+</form>
+</p>
+			<li class="buttons"><button type="submit" id="submit">Send Email &raquo;</button><input type="hidden" name="submitted" id="submitted" value="true" /></li>
+		</ol>
+	</form>
+
+<br/></span><br/></span><br/></span><br/></span>
+
+
+
+
+
+
+
+</div>
+<script>
+/**
+ * Uses canvas.measureText to compute and return the width of the given text of given font in pixels.
+ *
+ * @param text The text to be rendered.
+ * @param {String} font The css font descriptor that text is to be rendered with (e.g. "14px verdana").
+ *
+ * @see http://stackoverflow.com/questions/118241/calculate-text-width-with-javascript/21015393#21015393
+ */
+function getTextWidth(text, font) {
+    // if given, use cached canvas for better performance
+    // else, create new canvas
+    var canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
+    var context = canvas.getContext("2d");
+    context.font = font;
+    var metrics = context.measureText(text);
+    return metrics.width;
+};
+
+var title = document.getElementById("title").innerHTML;
+var titleinput = getTextWidth(title, "normal 20px Lucida Grande");
+document.getElementById("titleinput").style.width = titleinput + "px";
+
+
+
+{% for line in page.lines %}
+var line{{ forloop.index }} = document.getElementById("line{{ forloop.index }}").innerHTML;
+var line{{ forloop.index }}input = getTextWidth(line{{ forloop.index }}, "normal 14px Lucida Grande");
+document.getElementById("line{{ forloop.index }}-forme").style.width = line{{ forloop.index }}input + "px";
+var delay=1000; //1 second
+
+setTimeout(function() {
+document.getElementById("line{{ forloop.index }}").style.display = "none";
+document.getElementById("title").style.display = "none";
+var myElements = document.querySelectorAll(".breaker-off");
+for (var i = 0; i < myElements.length; i++) {
+    myElements[i].style.display = 'none';
+}
+}, delay);
+
+
+
+{% endfor %}
+
+</script>

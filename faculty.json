@@ -1,0 +1,27 @@
+---
+--- 
+{% assign items = site.data.faculty %}    {% assign colleges =  "" | split: " "  %}     {% assign departments =  "" | split: " "  %}   {% for item in items %} 	{% assign csubs = item.header %}     {% for c in csubs %} {% assign cc = c | strip %}         {% assign colleges = colleges | push: cc %}     {% endfor %}   {% endfor %}   
+{
+ "name": "University of Idaho",
+ "children": [{% assign uniqueColleges = colleges | uniq | sort %} {% for college in uniqueColleges %}
+    {
+      "name": "{{college}}",
+    "children": [
+      {
+      {% for item in items %}{% if item.header == college %}{% assign dsubs = item.d %}{% for d in dsubs %}     {% assign dd = d | strip %}        {% assign departments = departments | push: dd %}    {% endfor %}    {% endif %}{% endfor %}      {% assign uniqueDepartments = departments | uniq | sort %}{% for department in uniqueDepartments %}
+        "name": "{{department}}",
+        "children": [
+          { {% for item in items %}{% if item.d == department %}
+            "name": "{{item.n}}",
+            "children": [
+              {
+                "name": "Profile", "url": "{{item.a}}","imagelink":  "{{item.pic}}", "size": 7074
+              }{% endif %}  {% endfor %}    {% endfor %}  {% endfor %}
+                        ]
+          },
+                    ]
+      }
+                ]
+  }
+            ]
+}    

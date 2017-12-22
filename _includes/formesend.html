@@ -1,0 +1,65 @@
+<script>
+$(document).ready(function(){
+	$("#submit").click(function(){
+		$(".error").hide();
+		var hasError = false;
+		var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+
+		var emailToVal = $("#emailTo").val();
+		if(emailToVal == '') {
+			$("#emailTo").after('<span class="error">You forgot to enter the email address to send to.</span>');
+			hasError = true;
+		} else if(!emailReg.test(emailToVal)) {
+			$("#emailTo").after('<span class="error">Enter a valid email address to send to.</span>');
+			hasError = true;
+		}
+
+		var emailFromVal = $("#emailFrom").val();
+		if(emailFromVal == '') {
+			$("#emailFrom").after('<span class="error">You forgot to enter the email address to send from.</span>');
+			hasError = true;
+		} else if(!emailReg.test(emailFromVal)) {
+			$("#emailFrom").after('<span class="error">Enter a valid email address to send from.</span>');
+			hasError = true;
+		}
+
+		var subjectVal = $("#subject").val();
+		if(subjectVal == '') {
+			$("#subject").after('<span class="error">You forgot to enter the subject.</span>');
+			hasError = true;
+		}
+
+
+
+		var title = $("#titleinput").val();
+{% for line in page.lines %}
+var line{{ forloop.index }}Val = $("#line{{ forloop.index }}-forme").val();
+{% endfor %}
+
+
+
+		var poem = title + "\r\n\r\n" +{% for line in page.lines %}{% if line.break %}line{{ forloop.index }}Val + "\r\n\r\n" +{% else %}line{{ forloop.index }}Val + "\r\n" +{% endif%}{% endfor %} "\r\n" ;
+
+		var poemhtml = "<p>" + title + "<br/><br/>" +{% for line in page.lines %}{% if line.break %}line{{ forloop.index }}Val + "<br/><br/>" +{% else %}line{{ forloop.index }}Val + "<br/>" +{% endif%}{% endfor %}"<br/></p>";
+
+		var messageVal = poem;
+
+		if(hasError == false) {
+			$(this).hide();
+			$("#sendEmail li.buttons").append('<img src="images/loading.gif" alt="Loading" id="loading" />');
+
+			$.post("/forme/play/jqueryajaxform/sendemail.php",
+   				{ emailTo: emailToVal, emailFrom: emailFromVal, subject: subjectVal, message: poem,  },
+   					function(data){
+						$("#sendEmail").slideUp("normal", function() {
+
+							$("#sendEmail").before('<h1>Success</h1><p>Your forme was sent.</p><br/><br/>' + poemhtml);
+						});
+   					}
+				 );
+		}
+
+		return false;
+	});
+});
+</script>

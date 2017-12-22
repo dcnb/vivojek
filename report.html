@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="VIVO Explorer ">
+    <meta name="author" content="Carlos Alvarez - Alvarez.is - blacktie.co">
+	<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    <title> VIVO Explorer - University of Idaho</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <link href="assets/css/icomoon.css" rel="stylesheet">
+    <link href="assets/css/animate-custom.css" rel="stylesheet">
+	<link href="/css/flickity.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
+    <link href="/VivoExplorer/vivoexplorer.css" rel="stylesheet">
+	
+	<script src="https://code.jquery.com/jquery-latest.min.js"  type="text/javascript"></script>
+	<script type="text/javascript" src="callbacks.js"></script>	 
+	<script type="text/javascript">
+		  
+		var timeend = window.location.hash.split("-")[1];
+		var timestart = window.location.hash.split("&")[1].slice(0,-5);
+		var hashval = window.location.hash.split("#")[1].slice(0,-10);	
+		
+		//Endpoint and prefixes for all queries
+		var endpoint = "http://vivo.nkn.uidaho.edu:3030/VIVO/query";
+		
+		// Deleted a bunch of unused prefixes that just added characters to the string
+		// Check to make sure yours are in here if you change any of the queries (jk - 5/6/16)
+		var prefixes = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>PREFIX xsd:<http://www.w3.org/2001/XMLSchema#>PREFIX owl:<http://www.w3.org/2002/07/owl#>PREFIX vitro:<http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>PREFIX bibo:<http://purl.org/ontology/bibo/>PREFIX foaf:<http://xmlns.com/foaf/0.1/>PREFIX obo:<http://purl.obolibrary.org/obo/>PREFIX uidaho:<http://vivo.nkn.uidaho.edu/ontology/uidaho#>PREFIX vcard:<http://www.w3.org/2006/vcard/ns#>PREFIX vitro-public:<http://vitro.mannlib.cornell.edu/ns/vitro/public#>PREFIX vivo:<http://vivoweb.org/ontology/core#>"; 
+		
+		// Query People/Dept Information for Academic Depts
+		
+		var queryDeptHeader = prefixes + "SELECT  ?orglink ?header ?image ?p ?d ?a ?n ?pic WHERE{ FILTER(?orglink = <http://vivo.nkn.uidaho.edu/individual/"+hashval+">) . ?orglink rdfs:label ?header ; vitro-public:mainImage ?i ; obo:BFO_0000050 ?college ;  vivo:relatedBy ?b ; rdfs:label ?d . ?b vivo:relates ?a . ?a a vivo:FacultyMember ; rdfs:label ?n ; vitro-public:mainImage ?profpic . ?i vitro-public:thumbnailImage  ?thumb .  ?thumb vitro-public:downloadLocation ?im .  ?im vitro-public:directDownloadUrl ?image . ?profpic vitro-public:thumbnailImage  ?profthumb .  ?profthumb vitro-public:downloadLocation ?pm .  ?pm vitro-public:directDownloadUrl ?pic .} GROUP BY ?orglink ?header ?image ?p ?d ?a ?n ?pic ORDER BY ?n";
+		
+		// Query People/Organization Information for Research Orgs/Library/College of Law
+		var queryOrgHeader = prefixes + "SELECT ?orglink ?header ?image ?p ?d ?a ?n ?pic WHERE{FILTER(?orglink = <http://vivo.nkn.uidaho.edu/individual/"+hashval+">).?orglink rdfs:label ?header;vitro-public:mainImage ?i;vivo:relatedBy ?b;rdfs:label ?d.?b vivo:relates ?a.?a a vivo:FacultyMember;rdfs:label ?n;vitro-public:mainImage ?profpic.?i vitro-public:thumbnailImage  ?thumb.?thumb vitro-public:downloadLocation ?im.?im vitro-public:directDownloadUrl ?image.?profpic vitro-public:thumbnailImage ?profthumb.?profthumb vitro-public:downloadLocation ?pm.?pm vitro-public:directDownloadUrl ?pic.} GROUP BY ?orglink ?header ?image ?p ?d ?a ?n ?pic ORDER BY ?n" ;
+		
+		// Query People/Dept Information for Colleges
+		var queryCollHeader = prefixes + "SELECT  ?orglink ?header ?image ?p ?d ?a ?n ?pic WHERE{ FILTER(?orglink = <http://vivo.nkn.uidaho.edu/individual/"+hashval+">) . ?orglink rdfs:label ?header ; vitro-public:mainImage ?i ; obo:BFO_0000051 ?p . ?p a vivo:AcademicDepartment ; vivo:relatedBy ?b ; rdfs:label ?d .  ?b vivo:relates ?a . ?a a vivo:FacultyMember ; rdfs:label ?n ; vitro-public:mainImage ?profpic . ?i vitro-public:thumbnailImage  ?thumb .  ?thumb vitro-public:downloadLocation ?im .  ?im vitro-public:directDownloadUrl ?image . ?profpic vitro-public:thumbnailImage  ?profthumb .  ?profthumb vitro-public:downloadLocation ?pm .  ?pm vitro-public:directDownloadUrl ?pic .} GROUP BY ?orglink ?header ?image ?p ?d ?a ?n ?pic ORDER BY ?n" ;
+		
+		//Query Article Information
+		var queryCollPubs = prefixes + "SELECT DISTINCT  ?a ?au ?p ?ty ?ti ?j ?jo (year(?d) as ?y) WHERE {<http://vivo.nkn.uidaho.edu/individual/"+hashval+"> obo:BFO_0000051 ?q . ?q a vivo:AcademicDepartment ; vivo:relatedBy ?b . ?b vivo:relates ?a . ?a rdf:type foaf:Person ; rdfs:label ?au ; vivo:relatedBy ?c . ?c vivo:relates ?p . ?p a bibo:Document ; vitro:mostSpecificType ?ty ; rdfs:label ?ti ; vivo:dateTimeValue ?datetime . ?datetime vivo:dateTime ?d . OPTIONAL {?p vivo:hasPublicationVenue ?j . ?j rdfs:label ?jo .} FILTER (?d > '"+timestart+"-01-01T00:00:00'^^xsd:dateTime ) . } ORDER BY DESC(?d)";
+		
+		// Query Grant Information
+		var queryCollGrant = prefixes + "SELECT DISTINCT ?g ?o ?ag ?n ?m (year(?d) as ?y) WHERE {<http://vivo.nkn.uidaho.edu/individual/"+hashval+"> obo:BFO_0000051 ?q . ?q a vivo:AcademicDepartment ; vivo:relatedBy ?b . ?b vivo:relates ?a . ?a rdf:type foaf:Person ; rdfs:label ?l ; vivo:relatedBy ?g . ?g a vivo:Grant ; rdfs:label ?o . OPTIONAL {?g vivo:assignedBy ?ag . ?ag rdfs:label ?n .} OPTIONAL {?g vivo:dateTimeInterval ?dti . ?dti vivo:start ?dt . ?dt vivo:dateTime ?d .} OPTIONAL {?g vivo:totalAwardAmount ?m .} FILTER (?d > '"+timestart+"-01-01T00:00:00'^^xsd:dateTime )} ORDER BY DESC(?y)" ;
+		
+		//Query Presentations Information
+		var queryCollPrez = prefixes + "SELECT DISTINCT ?prez ?prezname ?conf (year(?date) as ?prezyear) WHERE { <http://vivo.nkn.uidaho.edu/individual/"+hashval+"> obo:BFO_0000051 ?q . ?q a vivo:AcademicDepartment ; vivo:relatedBy ?b . ?b vivo:relates ?a . ?a rdf:type foaf:Person . ?a obo:RO_0000053 ?role . ?role obo:BFO_0000054 ?prez . ?prez a vivo:Presentation . ?prez rdfs:label ?prezname . ?prez obo:BFO_0000050 ?venue . ?venue rdfs:label ?conf . ?role vivo:dateTimeInterval ?datetimeinterval . ?datetimeinterval vivo:start ?datetime . ?datetime vivo:dateTime ?date . 		FILTER (?date > '"+timestart+"-01-01T00:00:00'^^xsd:dateTime ) . } ORDER BY DESC(?date)" ;
+		
+		//Query Article Information
+		var queryPubs = prefixes + "SELECT DISTINCT  ?a ?au ?p ?ty ?ti ?j ?jo (year(?d) as ?y) WHERE {<http://vivo.nkn.uidaho.edu/individual/"+hashval+"> vivo:relatedBy ?b . ?b vivo:relates ?a . ?a rdf:type foaf:Person ; rdfs:label ?au ; vivo:relatedBy ?c . ?c vivo:relates ?p . ?p a bibo:Document ; vitro:mostSpecificType ?ty ; rdfs:label ?ti ; vivo:dateTimeValue ?datetime . ?datetime vivo:dateTime ?d . OPTIONAL {?p vivo:hasPublicationVenue ?j . ?j rdfs:label ?jo .} FILTER (?d > '"+timestart+"-01-01T00:00:00'^^xsd:dateTime ) . } ORDER BY DESC(?d)";
+		
+		// Query Grant Information
+		var queryGrant = prefixes + "SELECT DISTINCT ?g ?o ?ag ?n ?m (year(?d) as ?y) WHERE {<http://vivo.nkn.uidaho.edu/individual/"+hashval+"> vivo:relatedBy ?b . ?b vivo:relates ?a . ?a rdf:type foaf:Person ; rdfs:label ?l ; vivo:relatedBy ?g . ?g a vivo:Grant ; rdfs:label ?o . OPTIONAL {?g vivo:assignedBy ?ag . ?ag rdfs:label ?n .} OPTIONAL {?g vivo:dateTimeInterval ?dti . ?dti vivo:start ?dt . ?dt vivo:dateTime ?d .} OPTIONAL {?g vivo:totalAwardAmount ?m .} FILTER (?d > '"+timestart+"-01-01T00:00:00'^^xsd:dateTime )} ORDER BY DESC(?y)" ;
+		
+		//Query Presentations Information
+		var queryPrez = prefixes + "SELECT DISTINCT ?prez ?prezname ?conf (year(?date) as ?prezyear) WHERE { <http://vivo.nkn.uidaho.edu/individual/"+hashval+"> vivo:relatedBy ?b . ?b vivo:relates ?a .         ?a rdf:type foaf:Person .          ?a obo:RO_0000053 ?role .             ?role obo:BFO_0000054 ?prez . ?prez a vivo:Presentation . ?prez rdfs:label ?prezname . ?prez obo:BFO_0000050 ?venue . ?venue rdfs:label ?conf . ?role vivo:dateTimeInterval ?datetimeinterval . 		?datetimeinterval vivo:start ?datetime . 		?datetime vivo:dateTime ?date . 		FILTER (?date > '"+timestart+"-01-01T00:00:00'^^xsd:dateTime ) . 		 } ORDER BY DESC(?date)" ;
+		
+		function query(queryStr, endpoint, callback, isDebug) {
+			var querypart = endpoint + "?query=" + encodeURIComponent(queryStr);
+			
+			// Get our HTTP request object.
+			var xmlhttp = null;
+			if(window.XMLHttpRequest) {
+				xmlhttp = new XMLHttpRequest();
+			} else if(window.ActiveXObject) { 
+				// Code for older versions of IE, like IE6 and before.
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			} else {alert('Perhaps your browser does not support XMLHttpRequests?');}
+		
+			// Set up a POST with JSON result format.
+			xmlhttp.open('POST', querypart, true); // GET can have caching probs, so POST
+			xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			xmlhttp.setRequestHeader("Accept", "application/sparql-results+json");
+
+		
+			// Set up callback to get the response asynchronously.
+			xmlhttp.onreadystatechange = function() {
+			if(xmlhttp.readyState == 4) { if(xmlhttp.status == 200) {
+				// Do something with the results
+				if(isDebug) // alert(xmlhttp.responseText);
+				callback(xmlhttp.responseText);
+			} else {
+			   // Some kind of error occurred.
+			   // alert("Sparql query error: " + xmlhttp.status + " " + xmlhttp.responseText);
+				}
+			}
+			}; 
+			// Send the query to the endpoint.
+			console.log(querypart);
+			xmlhttp.send();
+    
+			// Done; now just wait for the callback to be called.
+			 var x = Math.floor((Math.random() * 10) + 1);
+
+			 var xstring = "{ \"contain\": true, \"initialIndex\":" + x + ", \"wrapAround\": false }"
+
+			 $("#twitter-widget-0").contents().find('head').append('<style>.inline-media{display:none !important;}.autosized-media {display:none !important;.photo-link {display:none !important;}img{display:none;}</style>');
+
+			 $(".gallery").attr("data-flickity-options", xstring);
+		};
+		
+			colls = ["n13085","n31646","n9513","n5857","n19263","n14472","n10830","n13549"];
+			orgs = ["n37288","n45780","n25164","n25164","n4712", "n3175", "n6370","n13969"];
+			
+			// Call the header.  This is the first request and the fastest
+			// Next, call the second fastest, with a 1 second delay.  The query will probably run in about 20 ms
+			// Next, call the shorter of the two big queries.  It can take  around 500-700 ms to run.  So make sure it has at least 1 second.
+			// Call the final and largest query.  Give it at least a second.  Occasionally this may overlap with the grants.
+			if (colls.indexOf(hashval) != -1) {
+				query(queryCollHeader, endpoint, headerCollCallback, true);
+				setTimeout(function(){query(queryCollPrez, endpoint, prezCallback, true);}, 2000);
+				setTimeout(function(){query(queryCollGrant, endpoint, grantCallback, true);}, 4000);
+				setTimeout(function(){query(queryCollPubs, endpoint, pubCallback, true);}, 6000);
+			} else if (orgs.indexOf(hashval) != -1) {
+				query(queryOrgHeader, endpoint, headerDeptCallback, true);
+				//setTimeout(function(){query(queryPrez, endpoint, prezCallback, true);}, 1000);
+				//setTimeout(function(){query(queryGrant, endpoint, grantCallback, true);}, 2000);
+				//setTimeout(function(){query(queryPubs, endpoint, pubCallback, true);}, 3000);
+				query(queryPrez, endpoint, prezCallback, true);
+				query(queryGrant, endpoint, grantCallback, true);
+				query(queryPubs, endpoint, pubCallback, true);
+			} else {
+				query(queryDeptHeader, endpoint, headerDeptCallback, true);
+				setTimeout(function(){query(queryPrez, endpoint, prezCallback, true);}, 1000);
+				setTimeout(function(){query(queryGrant, endpoint, grantCallback, true);}, 2000);
+				setTimeout(function(){query(queryPubs, endpoint, pubCallback, true);}, 3000);
+			}
+	</script>
+  </head>
+
+  <body data-spy="scroll" data-offset="0" data-target="#navbar-main" onload="initQ();">
+	<div id="navbar-main">
+		<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="icon icon-shield" style="font-size:30px; color:#3498db;"></span>
+					</button>
+					<a class="navbar-brand " href="index.html">VIVO EXPLORER</a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<a data-toggle="modal" href="#myModalcampus" class="btn btn-primary btn-lg pull-right hidden-sm" style="border-radius: 0px 0px 6px 6px;">More!</a>
+					<br class="hidden-md hidden-lg hidden-sm"/>
+					<br class="hidden-md hidden-lg hidden-sm"/>
+					<ul class="nav navbar-nav">
+						<li><a href="#overview" class="smoothScroll">Overview</a></li>
+						<li><a href="#faculty" class="smoothScroll"> Faculty</a></li>
+						<li><a href="#publications" class="smoothScroll" id="publick">Publications and Grants</a></li>
+						<li><a href="#venues" class="smoothScroll">Publication Venues</a></li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
+	<div class=" breadholder white" id="breadcrumbdiv">
+		<ol class="breadcrumb">
+			<li><a href="/index.html">Home</a></li>
+			<li><a href="index.html">VIVO Explorer</a></li>
+			<li class="active">Report<span id="reportbread"></span></li>
+		</ol>
+	</div>
+	<div  id="overview" name="overview">
+		<!-- ==== HEADERWRAP ==== -->
+	    <div id="headerwrap">
+			<header class="clearfix">
+				<div class="heading col-md-12" >
+					<div id="entityheader"></div>
+					<br />
+				</div>
+			</header>	    
+	    </div><!-- /headerwrap -->
+
+		<!-- ==== GREYWRAP ==== -->
+		<div id="greywrap" >
+			<div class="row"> <!-- Four Counts Row -->
+				<div class="col-md-4 col-md-offset-4">
+					<div class="panel panel-default ">
+						<div class="panel-heading">
+							<h3 class="panel-title">Number of Faculty</h3>
+						</div>
+						<div class="panel-body">
+							<div id="facultycount" class="numberlist" ></div>
+								<!-- Button trigger modal -->
+								<!-- Modal -->
+							<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+											<h4 class="modal-title" id="myModalLabel">Faculty</h4>
+										</div>
+										<div class="modal-body">
+											<div id="facultylist"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" id="deptCount"> <!-- Four Counts Row -->
+				<div class="col-md-4 col-md-offset-4">
+					<div class="panel panel-default ">
+						<div class="panel-heading">
+							<h3 class="panel-title">Number of Departments</h3>
+						</div>
+						<div class="panel-body">
+							<div id="deptcount" class="numberlist" ></div>
+							<div class="modal fade" id="myModaldept" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+											<h4 class="modal-title" id="myModalLabel">Departments</h4>
+										</div>
+										<div class="modal-body">
+											<div id="departmentlist"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> <!-- close col-md-2 -->
+			</div>
+		
+			<div class="row">
+				<div class="col-md-4" id="articlecountdiv">
+					<div class="panel panel-default ">
+						<div class="panel-heading">
+							<h3 class="panel-title">Number of Publications</h3>
+						</div>
+						<div class="panel-body" >
+							<div id="acarticlecount" class="numberlist exploreclick" ></div>
+						</div>
+					</div>
+				</div> 
+				<div class="col-md-4" id="grantcountdiv" >
+					<div class="panel panel-default ">
+						<div class="panel-heading">
+							<h3 class="panel-title">Grants Awarded to Faculty</h3>
+						</div>
+						<div class="panel-body" >
+							<div id="grantcount" class="numberlist exploreclick" ></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4" id="grantmoneydiv">
+					<div class="panel panel-default ">
+						<div class="panel-heading">
+							<h3 class="panel-title">Total Value of Faculty Grants</h3>
+						</div>
+						<div class="panel-body">
+							<div class="numberlist">
+								<ul><li>$<span id="grantmoney"></span></li></ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div><!-- end row -->
+		</div><!-- greywrap -->
+	</div><!-- overview -->
+
+	<!-- ==== Faculty ==== -->
+	<div id="faculty" name="faculty">
+		<br />
+		<div class="row" >
+			<br />
+			<div  style="overflow:hidden;">
+				<div class="row">
+					<br />
+					<h1 class="centered">Faculty</h1>
+					<hr />
+					<br />
+					<br />
+				</div>
+				<div class="row">
+					<div class="jumbotron" id="flickitydiv" style="width: 100%; ">
+					<!-- Flickity HTML init -->
+						<div class="gallery js-flickity " id="facultygallery" tabindex="3"></div>
+					</div>
+				</div>
+			</div>
+		</div><!-- row -->
+	</div><!-- faculty -->
+	<!--<script src="/js/flickity.pkgd.min.js"   type="text/javascript"></script>	-->
+	
+	<!-- ==== SECTION DIVIDER 1 -->
+	<section class="section-divider textdivider divider1">
+		<div class="container">
+			<br/>
+			<hr />
+			<p>Bringing the World to Idaho, and Idaho to the World</p>
+		</div><!-- container -->
+	</section><!-- section -->
+		
+	<!-- ==== PORTFOLIO ==== -->
+	<div id="publications" name="publications">
+		<br />
+		<div class="row">
+			<br />
+			<h1 class="centered">Recent Publications</h1>
+			<hr />
+			<br />
+			<br />
+		</div>
+		<div class="row" >
+			<div class="col-md-10 col-md-offset-1">
+				<div class="panel-group" id="accordion">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="accord">Recent Articles <span class="glyphicon glyphicon-chevron-down smalltxt"></span></a>
+							</h4>
+						</div>
+						<div id="collapseThree" class="panel-collapse collapse">
+							<div class="panel-body">
+								<div id="recentarticles"></div>
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-default " id="recentbooksdiv">
+						<div class="panel-heading">
+							<h3 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseFour" class="accord">Recent Books <span class="glyphicon glyphicon-chevron-down smalltxt"></a></h3>
+						</div>
+						<div id="collapseFour" class="panel-collapse collapse">
+							<div class="panel-body">
+								<div id="recentbooks"></div>
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-default" id="recentgrantdiv">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="accord">Recent Grants <span class="glyphicon glyphicon-chevron-down smalltxt"></span></a>
+							</h4>
+						</div>
+						<div id="collapseTwo" class="panel-collapse collapse" >
+							<div class="panel-body">
+								<div id="recentawards"></div>
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-default" id="recentprezdiv">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="accord">Recent Presentations <span class="glyphicon glyphicon-chevron-down smalltxt"></span></a>
+							</h4>
+						</div>
+						<div id="collapseOne" class="panel-collapse collapse" >
+							<div class="panel-body">
+								<div id="recentprez"  ></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br />
+				<br />
+			</div>
+		</div>
+	</div>
+	
+	<!-- ==== SECTION DIVIDER2 -->
+	<section class="section-divider textdivider divider2">
+		<div class="container">
+			<h1>The University of Idaho</h1>
+			<hr />
+			<p>Producing Quality Research Since 1889 </p>
+		</div><!-- container -->
+	</section><!-- section -->
+	<div id="greywrap">
+		<div id="venues" name="venues">
+			<br />
+			<div class="row">
+				<br />
+				<h1 class="centered">Publication Venues</h1>
+				<hr />
+				<br />
+				<br />
+			</div>
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1">
+					<div id="publicationvenues"  ></div>
+				</div>
+    		</div><!-- row -->
+		</div>
+		<br/>
+		<br/>
+	</div><!-- /greywrap -->
+	
+	<!-- === FOOTER === -->
+	<div id="footerwrap">
+		<div class="container">
+			<h4>Created by the <a href="/index.html"> University of Idaho Library </a><br /> using data from <a href="http://vivo.nkn.uidaho.edu">VIVO</a> - a Linked-Data Network Describing the Research and Researchers of the University of Idaho </h4>
+		</div>
+	</div>
+	
+	<!-- === MORE MODAL === -->
+	<div class="modal fade" id="myModalcampus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">More UI Organizations to Explore </h4>
+				</div>
+				<div class="modal-body">
+					<div class="row"> <!-- Four Counts Row -->
+						<h3 style="font-size:17px">Select a time frame and then click below to generate a report on a UI entity.</h3>
+						<h3 style="text-align:center;">I'm interested in the time frame:</h3>
+						<form>
+							<h3 style="text-align:center;">
+								<select id="timestarted" title="Jump to a year" class="" onchange="timestartmodal = this.value">
+									<option value="1950">All</option>
+									<option value="2006">2006</option>
+									<option value="2007">2007</option>
+									<option value="2008">2008</option>
+									<option value="2009">2009</option>
+									<option value="2010">2010</option>
+									<option value="2011" class="selected" selected="">2011</option>
+									<option value="2012">2012</option>
+									<option value="2013">2013</option>
+									<option value="2014">2014</option>
+									<option value="2015">2015</option>
+								</select>
+								<span>to 2016</span>
+								<!--<select id="timeended" title="Jump to a year" onchange="timeend = this.value">
+									<option value="2015" class="selected">2015</option>
+									<option value="2014">2014</option>
+									<option value="2013">2013</option>
+									<option value="2012">2012</option>
+									<option value="2011">2011</option>
+									<option value="2010">2010</option>
+									<option value="2009">2009</option>
+									<option value="2008">2008</option>
+									<option value="2007">2007</option>
+									<option value="2006">2006</option>
+									<option value="2000">All</option>
+								</select>-->
+							</h3>
+						</form>
+
+						<div class="col-md-12 "   >
+							<div class="panel-group " id="accordion">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="panel panel-default  ">
+											<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"  class="accordProfile" ><div class="berry panel-heading"><h3 class="panel-title">Colleges </h3></div></a>
+											<div id="collapseOne" class="panel-collapse collapse in" >
+												<div class="panel-body">
+													<ul class="indexlist">
+														<li><a id="deptlink" href="report.html#"  value="n13085">College of Agricultural & Life Sciences</a></li>
+														<li><a id="deptlink" href="report.html#"  value="n31646">College of Art & Architecture*</a></li>
+														<li><a id="deptlink" href="report.html#"  value="n9513">College of Business & Economics*</a></li>
+														<li><a id="deptlink" href="report.html#"  value="n5857">College of Education*</a></li>
+														<li><a id="deptlink" href="report.html#"  value="n19263">College of Engineering</a></li>
+														<!--<li><a id="colllink" href="#"  value="n117014">College of Graduate Studies</a></li>-->
+														<li><a id="deptlink" href="report.html#"  value="n13969">College of Law</a></li>
+														<li><a id="deptlink" href="report.html#"  value="n14472">College of Letters, Arts, and Social Sciences*</a></li>
+														<li><a id="deptlink" href="report.html#"  value="n10830">College of Natural Resources</a></li>
+														<li><a id="deptlink" href="report.html#"  value="n13549">College of Science</a></li>
+													</ul>
+												</div>
+											</div>
+										</div>
+										<div class="panel panel-default ">
+											<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"  class="accordProfile"><div class="stone panel-heading"><h3 class="panel-title">Research Organizations </h3></div></a>
+											<div id="collapseTwo" class="panel-collapse collapse in" >
+												<div class="panel-body">
+													<ul class="indexlist">
+														<!--<li><a id="deptlink" href="report.html#"  value="n37288">Idaho Agricultural Experiment Station</a></li>-->
+														<!--<li><a id="deptlink" href="report.html#"  value="n45780">Idaho Cooperative Fish and Wildlife Unit</a></li>-->
+														<li><a id="deptlink" href="report.html#"  value="n25164">Idaho EPSCoR</a></li>
+														<li><a id="deptlink" href="report.html#"  value="n25164">Idaho INBRE (IDeA Network of Biomedical Research Excellence)</a></li>
+														<li><a id="deptlink" href="report.html#"  value="n4712">Institute for Bioinformatics and Evolutionary Studies (IBEST)</a></li>
+														<!--<li><a id="orglink" href="#"  value="n695347">Palouse Research, Extension and Education Center</a></li>-->
+														<li><a id="deptlink" href="report.html#"  value="n3175">Regional Approaches to Climate Change (REACCH)- Pacific Northwest Agriculture</a></li>
+														<!--<li><a  href="report.html#n8485">Solutions to Environmental and Economic Problems (STEEP)</a></li>-->
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="panel panel-default ">
+											<a data-toggle="collapse" data-parent="#accordion" href="#collapseFour" class="accordProfileup"><div class="plum panel-heading"><h3 class="panel-title">Departments &amp; Library </h3></div></a>
+											<div id="collapseFour" class="panel-collapse collapse in" >
+												<div class="panel-body">
+													<div class="col-md-12"  >
+														<ul class="indexlist">
+															<li><a id="deptlink" href="report.html#"  value="n50930">Accounting*</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n62022">Agricultural & Extension Education</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n39442">Agriculture Economics & Rural Sociology</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n23012">Animal & Veterinary Science</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n6196">Architecture & Interior Design*</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n32256">Art & Design*</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n13535">Biological & Agricultural Engineering</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n6256">Biological Sciences</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n7975">Business*</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n13454">Chemical & Materials Engineering</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n6506">Chemistry</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n22895">Civil Engineering</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n9880">Computer Science</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n39633">Conservation Social Sciences</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n1232">Curriculum & Instruction*</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n14113">Electrical & Computer Engineering</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n41165">English*</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n55529">Family & Consumer Science</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n31372">Fish & Wildlife Sciences</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n29953">Food Science</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n49106">Forest, Rangeland & Fire Sciences</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n9521">Geography</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n44652">Geological Sciences</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n40830">History*</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n56213">International Studies</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n22995">Journalism & Mass Media*</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n24325">Landscape Architecture*</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n23913">Leadership & Counseling*</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n6370">Library</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n4975">Lionel Hampton School of Music*</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n21251">Mathematics</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n6061">Mechanical Engineering</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n25295">Modern Languages & Cultures*</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n7928">Movement Sciences</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n39633">Natural Resources and Society</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n13066">Philosophy*</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n4790">Physics</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n4741">Plant, Soil & Entomological Sciences</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n9989">Political Science*</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n24981">Psychology & Communication Studies*</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n1270">Sociology & Anthropology*</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n50414">Statistical Science</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n60133">Theatre Arts*</a></li>
+															<li><a id="deptlink" href="report.html#"  value="n9821">Virtual Technology & Design*</a></li>
+														</ul>	
+													</div>
+												</div>
+											</div>
+										</div>
+									</div><!-- /col-md-12 -->
+								</div><!-- /row -->
+							</div><!-- /panel group accordion -->
+							<p style="line-height:24px;">
+							An asterisk  ("*") indicates a College or Department with less fully reported activity. We are continuing to collect data on all departments and colleges. If you have any updates or changes to report, please email <a href="mailto:againes@uidaho.edu">our VIVO Representative</a>.</p>
+							<script type="text/javascript">
+								var timeendmodal = "2016";
+								var timestartmodal = "2011";
+								
+								$('a#deptlink').click(function(){
+									var uri = $(this).attr("value");
+									var link = "report.html#" + uri + "&" + timestartmodal + "-" + timeendmodal;
+									window.open(link);
+									//alert("The paragraph" + link + "was clicked.");
+								});
+							</script>
+						</div><!-- /col-md-12 -->
+					</div><!-- /row -->
+				</div><!-- /.modal-body -->
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+    
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+
+    <script src="/js/bootstrap.js"></script><script src="/js/scrolltotop.js"></script>
+	    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="/js/affix.js"></script>
+   	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script type="text/javascript" src="assets/js/retina.js"></script>
+	<script type="text/javascript" src="assets/js/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="assets/js/smoothscroll.js"></script>
+	<script type="text/javascript" src="assets/js/jquery-func.js"></script>	
+	<script>
+		$(document).ready(function(){
+			$(".exploreclick").click(function(){
+			
+			//alert("The button was clicked.");
+			$( "#publick" ).trigger( "click" );
+			});
+		});
+	</script>	
+	
+	</body>
+</html>

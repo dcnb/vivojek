@@ -1,0 +1,53 @@
+---
+layout: default
+---
+
+    
+    
+   {% assign items = site.data.faculty %} 
+   {% assign colleges =  "" | split: " "  %}
+    {% assign departments =  "" | split: " "  %}
+  {% for item in items %}
+	{% assign csubs = item.header %}
+    {% for c in csubs %}
+        {% assign cc = c | strip %}
+        {% assign colleges = colleges | push: cc %}
+    {% endfor %}
+  {% endfor %}  
+
+{% assign uniqueColleges = colleges | uniq | sort %}
+{% for college in uniqueColleges %}
+<h2>{{college}}</h2>
+  {% for item in items %}
+  {% if item.header == college %}
+  {% assign dsubs = item.d %}
+    {% for d in dsubs %}
+        {% assign dd = d | strip %}
+        {% assign departments = departments | push: dd %}
+    {% endfor %}
+    {% endif %}
+{% endfor %}
+
+ {% assign uniqueDepartments = departments | uniq | sort %}
+{% for department in uniqueDepartments %}
+ <h3>{{department}}</h3>
+   {% for item in items %}
+ {% if item.d == department %}
+  {% if forloop.last == true %}
+         <p>{{item.n}}</p>
+    {% else %}
+       <p>{{item.n}},</p>
+    {% endif %}
+
+ {% endif %}
+  {% endfor %}
+    {% endfor %}
+  {% endfor %}
+ 
+
+
+        <p>
+          
+ 
+                  
+          

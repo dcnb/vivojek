@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="VIVO Explorer">
+    <meta name="author" content="Carlos Alvarez - Alvarez.is - blacktie.co">
+	<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    <title> VIVO Explorer - University of Idaho</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="assets/css/main.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/icomoon.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/animate-custom.css" rel="stylesheet" type="text/css">
+	<link href="/css/flickity.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Raleway:400,300,700" rel="stylesheet" type="text/css">
+    <link href="/VivoExplorer/vivoexplorer.css" rel="stylesheet" type="text/css">
+	
+	<script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" src="callbacks.js"></script>
+   <style>
+	#headerwrap{min-height:300px;}
+	#headerwrap h1 {
+		color: #ffffff;
+		margin-top: 20px;
+		padding-bottom: 20px;
+		letter-spacing: 4px;
+		font-size: 50px;
+		font-weight: bold;
+		text-shadow: 2px 2px 2px #000;
+	}
+	#headerwrap h1 a{color:white;}
+	.flickity-page-dots {bottom: -20px;padding-top:10px;}
+	.indexlist{text-align:left;font-weight:bold;}
+	.indexlist li{padding-left: 22px ;text-indent: -22px ;}
+	.panel-title{text-align:left;}
+	</style>
+  </head>
+
+  <body data-spy="scroll" data-offset="0" data-target="#navbar-main">
+	<div id="navbar-main">
+		<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="icon icon-shield" style="font-size:30px; color:#3498db;"></span>
+					</button>
+					<a class="navbar-brand " href="index.html">VIVO EXPLORER!</span></a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="#explore" class="smoothScroll"> Explore</a></li>
+						<li><a href="#viz" class="smoothScroll"> Visualizations</a></li>
+						<li><a href="#about" class="smoothScroll" id="publick"> About</a></li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div>
+    </div>
+	<div class=" breadholder white" id="breadcrumbdiv">
+		<ol class="breadcrumb">
+			<li><a href="/index.html">Home</a></li>
+			<li><a href="index.html">VIVO Explorer</a></li>
+			<li class="active">Report<span id="reportbread"></span></li>
+		</ol>
+	</div>
+	<div  id="explore" name="explore">
+		
+		<!-- ==== HEADERWRAP ==== -->
+	    <div id="headerwrap" style="padding-top:50px; min-height: 100px;">
+			<header class="clearfix">
+				<div class="heading col-md-12" >
+					<div id="entityheader">
+						<h1 style="margin-bottom:0px;">VIVO Explorer!</h1>
+						<h3 style="color:white;margin-top:0px;">Explore <a href="#about" class="smoothScroll" style="color:aquamarine;">our VIVO data</a> on University of Idaho scholarly and creative activity.</h3>
+						<h4 style="color:#f2f2f2;font-size:16px;line-height:1.5em;">Note: Data driving this application is representative and not comprehensive, with some Colleges and Departments having more fully reported their activity within the system than others.<br/>As such, the information presented here is to be used for exploratory purposes; it is not intended, nor is it comprehensive enough, to serve as comparative or evaluative data. </h4>
+					</div>
+				</div>
+			</header>	    
+	    </div><!-- /headerwrap -->
+
+		<!-- ==== GREYWRAP ==== -->
+		<div id="greywrap" style=" padding-top: 20px;">
+			<div class="row"> <!-- Four Counts Row -->
+				<h3 style="font-size:17px">Select a time frame and then click below to generate a report on a UI entity.</h3>
+				<h3>I'm interested in the time frame: </h3>
+				<form><h3>
+					<select id="timestarted" title="Jump to a year" class="" onchange="timestart = this.value">
+						<option value="1950">All</option>
+						<option value="2006">2006</option>
+						<option value="2007">2007</option>
+						<option value="2008">2008</option>
+						<option value="2009">2009</option>
+						<option value="2010">2010</option>
+						<option value="2011" class="selected" selected="">2011</option>
+						<option value="2012">2012</option>
+						<option value="2013">2013</option>
+						<option value="2014">2014</option>
+						<option value="2015">2015</option>
+					</select>
+					<span>to 2016</span>
+				</h3></form>
+				<div class="col-md-12 "   >
+					<div class="panel-group " id="accordion">
+						<div class="row">
+							<div class="col-md-4">
+								<div class="panel panel-default  ">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"  class="accordProfile" ><div class="berry panel-heading"><h3 class="panel-title">Colleges </h3></div></a>
+									<div id="collapseOne" class="panel-collapse collapse in">
+										<div class="panel-body">
+											<ul class="indexlist">
+												<li><a id="deptlink" href="#" value="n13085">College of Agricultural &amp; Life Sciences</a></li>
+												<li><a id="deptlink" href="#" value="n31646">College of Art &amp; Architecture*</a></li>
+												<li><a id="deptlink" href="#" value="n9513">College of Business &amp; Economics*</a></li>
+												<li><a id="deptlink" href="#" value="n5857">College of Education*</a></li>
+												<li><a id="deptlink" href="#" value="n19263">College of Engineering</a></li>
+												<!--<li><a id="colllink" href="#"  value="n117014">College of Graduate Studies</a></li>-->
+												<li><a id="deptlink" href="#" value="n13969">College of Law</a></li>
+												<li><a id="deptlink" href="#" value="n14472">College of Letters, Arts, and Social Sciences*</a></li>
+												<li><a id="deptlink" href="#" value="n10830">College of Natural Resources</a></li>
+												<li><a id="deptlink" href="#" value="n13549">College of Science</a></li>
+											</ul>
+										</div>
+									</div>
+								</div><!-- /panel-default -->
+								<div class="panel panel-default ">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"  class="accordProfile"><div class="stone panel-heading"><h3 class="panel-title">Research Organizations </h3></div></a>
+									<div id="collapseTwo" class="panel-collapse collapse in" >
+										<div class="panel-body">
+											<ul class="indexlist">
+												<!--<li><a id="deptlink" href="#"  value="n37288">Idaho Agricultural Experiment Station</a></li>-->
+												<!--<li><a id="deptlink" href="#"  value="n45780">Idaho Cooperative Fish and Wildlife Unit</a></li>-->
+												<li><a id="deptlink" href="#"  value="n25164">Idaho EPSCoR</a></li>
+												<li><a id="deptlink" href="#"  value="n25164">Idaho INBRE (IDeA Network of Biomedical Research Excellence)</a></li>
+												<li><a id="deptlink" href="#"  value="n4712">Institute for Bioinformatics and Evolutionary Studies (IBEST)</a></li>
+												<!--<li><a id="orglink" href="#"  value="n695347">Palouse Research, Extension and Education Center</a></li>-->
+												<li><a id="deptlink" href="#"  value="n3175">Regional Approaches to Climate Change (REACCH)- Pacific Northwest Agriculture</a></li>
+												<!--<li><a  href="report.html#n8485">Solutions to Environmental and Economic Problems (STEEP)</a></li>-->
+											</ul>
+										</div>
+									</div>
+								</div><!-- /panel-default -->
+								
+								<div class="panel panel-default " style="display:none;">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"   class="accordProfile"><div class="moss panel-heading"><h3 class="panel-title">Library </h3></div></a>
+									<div id="collapseThree" class="panel-collapse collapse in">
+										<div class="panel-body">
+											<ul class="indexlist">
+												<li><a id="deptlink" href="#"  value="n6370">University of Idaho Library</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div><!-- /col-md-4 -->
+							
+							<div class="col-md-8">
+								<div class="panel panel-default">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseFour"   class="accordProfileup" ><div class="plum panel-heading"><h3 class="panel-title">Departments &amp; Library </h3></div></a>
+									<div id="collapseFour" class="panel-collapse collapse in" >
+										<div class="panel-body">
+											<div class="col-md-6">
+												<ul class="indexlist">
+													<li><a id="deptlink" href="#"  value="n50930">Accounting*</a></li>
+													<li><a id="deptlink" href="#"  value="n62022">Agricultural &amp; Extension Education</a></li>
+													<li><a id="deptlink" href="#"  value="n39442">Agriculture Economics & Rural Sociology</a></li>
+													<li><a id="deptlink" href="#"  value="n23012">Animal &amp; Veterinary Science</a></li>
+													<li><a id="deptlink" href="#"  value="n6196">Architecture &amp; Interior Design*</a></li>
+													<li><a id="deptlink" href="#"  value="n32256">Art &amp; Design*</a></li>
+													<li><a id="deptlink" href="#"  value="n13535">Biological &amp; Agricultural Engineering</a></li>
+													<li><a id="deptlink" href="#"  value="n6256">Biological Sciences</a></li>
+													<li><a id="deptlink" href="#"  value="n7975">Business*</a></li>
+													<li><a id="deptlink" href="#"  value="n13454">Chemical &amp; Materials Engineering</a></li>
+													<li><a id="deptlink" href="#"  value="n6506">Chemistry</a></li>
+													<li><a id="deptlink" href="#"  value="n22895">Civil Engineering</a></li>
+													<li><a id="deptlink" href="#"  value="n9880">Computer Science</a></li>
+													<li><a id="deptlink" href="#"  value="n39633">Conservation Social Sciences</a></li>
+													<li><a id="deptlink" href="#"  value="n1232">Curriculum &amp; Instruction*</a></li>
+													<li><a id="deptlink" href="#"  value="n14113">Electrical &amp; Computer Engineering</a></li>
+													<li><a id="deptlink" href="#"  value="n41165">English*</a></li>
+													<li><a id="deptlink" href="#"  value="n55529">Family &amp; Consumer Science</a></li>
+													<li><a id="deptlink" href="#"  value="n31372">Fish &amp; Wildlife Sciences</a></li>
+													<li><a id="deptlink" href="#"  value="n29953">Food Science</a></li>
+													<li><a id="deptlink" href="#"  value="n49106">Forest, Rangeland &amp; Fire Sciences</a></li>
+													<li><a id="deptlink" href="#"  value="n9521">Geography</a></li>
+												</ul>
+											</div>
+											<div class="col-md-6"  class="indexlist" >
+												<ul class="indexlist">
+													<li><a id="deptlink" href="#"  value="n44652">Geological Sciences</a></li>
+													<li><a id="deptlink" href="#"  value="n40830">History*</a></li>
+													<li><a id="deptlink" href="#"  value="n56213">International Studies</a></li>
+													<li><a id="deptlink" href="#"  value="n22995">Journalism &amp; Mass Media*</a></li>
+													<li><a id="deptlink" href="#"  value="n24325">Landscape Architecture*</a></li>
+													<li><a id="deptlink" href="#"  value="n23913">Leadership &amp; Counseling*</a></li>
+													<li><a id="deptlink" href="#"  value="n6370">Library</a></li>
+													<li><a id="deptlink" href="#"  value="n4975">Lionel Hampton School of Music*</a></li>
+													<li><a id="deptlink" href="#"  value="n21251">Mathematics</a></li>
+													<li><a id="deptlink" href="#"  value="n6061">Mechanical Engineering</a></li>
+													<li><a id="deptlink" href="#"  value="n25295">Modern Languages &amp; Cultures*</a></li>
+													<li><a id="deptlink" href="#"  value="n7928">Movement Sciences</a></li>
+													<li><a id="deptlink" href="#"  value="n39633">Natural Resources and Society</a></li>
+													<li><a id="deptlink" href="#"  value="n13066">Philosophy*</a></li>
+													<li><a id="deptlink" href="#"  value="n4790">Physics</a></li>
+													<li><a id="deptlink" href="#"  value="n4741">Plant, Soil &amp; Entomological Sciences</a></li>
+													<li><a id="deptlink" href="#"  value="n9989">Political Science*</a></li>
+													<li><a id="deptlink" href="#"  value="n24981">Psychology &amp; Communication Studies*</a></li>
+													<li><a id="deptlink" href="#"  value="n1270">Sociology &amp; Anthropology*</a></li>
+													<li><a id="deptlink" href="#"  value="n50414">Statistical Science</a></li>
+													<li><a id="deptlink" href="#"  value="n60133">Theatre Arts*</a></li>
+													<li><a id="deptlink" href="#"  value="n9821">Virtual Technology &amp; Design*</a></li>
+												</ul>	
+											</div>
+										</div><!-- /panel-body -->
+									</div><!-- /collapse-four -->
+								</div><!-- /panel-default -->
+							</div><!-- /col-md-8 -->
+						</div><!-- /row -->
+					</div><!-- /panel-group -->
+				</div><!-- /col-md-12  -->	
+			</div><!-- /end Four Counts Row -->
+			<br/>
+			<h3 style="font-size:18px; line-height:25px;">An asterisk  ("*") indicates a College or Department with less fully reported activity. <br/>We are continuing to collect data on all departments and colleges. If you have any updates or changes to report, please email <a href="mailto:againes@uidaho.edu">our VIVO Representative</a>.</h3>
+			<br/>
+		</div><!-- /greywrap -->
+	</div><!-- /explore -->
+		
+		
+	<!-- ====  Visualizations  ==== -->
+	<div id="viz" name="viz">
+		<br />
+		<div class="row">
+			<br />
+			<div style="overflow:hidden;">
+				<div class="row">
+					<br />
+					<h1 class="centered">Visualizations</h1>
+					<hr />
+					<br />
+					<div class="row">
+						<div class="col-md-5 col-md-offset-1">
+							<div class="grid mask">
+								<figure>
+									<a  href="http://testweb.lib.uidaho.edu/vivoexplorer/hibars.html" class="btn btn-primary btn-lg"><img class="img-responsive" src="images/facnumber.png" alt=""></a>
+									<h5>Number and Names of Faculty by College and Department</h5>
+								</figure><!-- /figure -->
+							</div><!-- /grid-mask -->
+						</div>
+						<div class="col-md-5 col-md-offset-1">
+							<div class="grid mask">
+								<figure>
+									<a  href="http://testweb.lib.uidaho.edu/vivoexplorer/hibars2.html" class="btn btn-primary btn-lg"><img class="img-responsive" src="images/pubnumber.png" alt=""></a>
+									<h5>Number of Articles recorded in VIVO by College, Department, and Facuulty Member</h5>
+								</figure><!-- /figure -->
+							</div><!-- /grid-mask -->
+						</div>
+					</div><!-- /row -->
+					<br /><br />
+					<div class="row">
+					
+						<!-- PORTFOLIO IMAGE 1 -->
+						<div class="col-md-8 col-md-offset-2">
+							<div class="grid mask">
+								<figure>
+									<a  href="http://testweb.lib.uidaho.edu/vivoexplorer/tree2.html" class="btn btn-primary btn-lg"><img class="img-responsive" src="images/tree.png" alt=""></a>
+									<h5>Tree Visualization of Faculty by College and Department</h5>
+								</figure><!-- /figure -->
+							</div><!-- /grid-mask -->
+						</div><!-- /col -->
+					</div><!-- /row -->
+				</div><!-- /row -->
+			</div>
+			<div class="row">
+				<div class="jumbotron" id="flickitydiv" style="width: 100%; ">
+					<!-- Flickity HTML init -->
+					<div class="gallery js-flickity " id="facultygallery" tabindex="3"></div>
+				</div>
+			</div>
+		</div><!-- /row -->
+	</div><!-- /viz -->
+	
+	<!--<script src="/js/flickity.pkgd.min.js"   type="text/javascript"></script>	-->
+	
+	<!-- ==== SECTION DIVIDER2 -->
+	<section class="section-divider textdivider divider2">
+		<div class="container">
+			<h1>The University of Idaho</h1>
+			<hr /><p>Since 1889</p>
+		</div><!-- container -->
+	</section><!-- section -->
+		
+	<!-- ==== PORTFOLIO ==== -->
+	<div id="about" name="about">
+		<br />
+		<div class="row">
+			<br />
+			<h1 class="centered">About</h1>
+			<hr />
+			<br />
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2" style="line-height:1.7em; font-size:1.3em;">
+					<p>The <i>VIVO Explorer!</i> is developed and maintained by the <a href="http://www.lib.uidaho.edu/">University of Idaho Library</a> to help facilitate the exploration of data within its <a href="https://vivo.nkn.uidaho.edu/vivo">VIVO discovery tool</a>.</p>
+					<p><a href="http://vivoweb.org/">VIVO</a> is a <a href="https://www.w3.org/RDF/Metalog/docs/sw-easy">semantic web</a> application implemented across the globe as a way to describe and connect the research and researchers that occurs within and across institutions. The University of Idaho has been implementing <a href="https://vivo.nkn.uidaho.edu/vivo">our own instance of VIVO</a> over several years now, and <i>VIVO Explorer!</i> queries that data to create visualizations and reports.</p>
+					<p>More technically speaking, <i>VIVO Explorer!</i> accesses the VIVO RDF dataset using the W3C recommended SPARQL Query Language over HTTP and then uses JavaScript and jQuery on the client browser to generate research reports and narratives for campus organizations. The application also features additional visualizations created using the <A href="https://d3js.org/">d3.js JavaScript Visualization Library</a>.</p>
+					<p>By building this application, we hope to encourage exploration of the university's <a href="https://www.uidaho.edu/research">scholarly and creative activity</a> both internally and externally, as well as to increase interest in VIVO as a reporting and discovery tool for the University of Idaho. </p>
+					<p>Questions about this application can be directed to Devin Becker @ <a href="mailto:dbecker@uidaho.edu">dbecker@uidaho.edu</a>.</p>
+				</div>
+			</div>
+			<br />
+		</div><!-- /row -->
+	</div><!-- /about -->
+	
+	<!-- ==== FOOTER ==== -->
+	<div id="footerwrap">
+		<div class="container">
+			<h4>Created by the <a href="/index.html"> University of Idaho Library </a><br /> using data from <a href="http://vivo.nkn.uidaho.edu">VIVO</a> - a Linked-Data Network Describing the Research and Researchers of the University of Idaho </h4>
+		</div>
+	</div>
+	
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
+	<script type="text/javascript" src="/js/scrolltotop.js"></script>
+    <script type="text/javascript" src="/js/affix.js"></script>
+   	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script type="text/javascript" src="assets/js/retina.js"></script>
+	<script type="text/javascript" src="assets/js/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="assets/js/smoothscroll.js"></script>
+	<script type="text/javascript" src="assets/js/jquery-func.js"></script>	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".exploreclick").click(function(){
+				//alert("The button was clicked.");
+				$( "#publick" ).trigger( "click" );
+			});
+		});
+	</script>	
+	<script type="text/javascript">
+		var timeend = "2016";
+		var timestart = "2011";
+		$(document).ready(function(){
+			$("#tooltip1").tooltip();   
+			$("#popover1").popover(); 
+			$("#popover2").popover();
+		});
+		$("#advanced-on").click(function(){
+			$(".advanced_opt").toggle();
+			$("#advanced-on").toggleClass('bold');
+		});
+		$('a#deptlink').click(function(){
+			var uri = $(this).attr("value");
+			var link = "report.html#" + uri + "&" + timestart + "-" + timeend;
+			window.location.href = link; 
+		});
+		/*
+		$('a#orglink').click(function(){ 
+		var uri = $(this).attr("value"); 
+		var link = "report.html#" + uri + "&" + timestart + "-" + timeend; 
+		window.location.href = link; });
+
+		$('a#colllink').click(function(){ 
+		var uri = $(this).attr("value"); 
+		var link = "reportcoll.html#" + uri + "&" + timestart + "-" + timeend; 
+		window.location.href = link; });
+		*/
+	</script>
+  </body>
+</html>
