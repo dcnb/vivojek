@@ -7,21 +7,9 @@
     {
       "name": "{{college}}",
     "children": [
-      {
-      {% for item in items %}{% if item.header == college %}{% assign dsubs = item.d %}{% for d in dsubs %}     {% assign dd = d | strip %}        {% assign departments = departments | push: dd %}    {% endfor %}    {% endif %}{% endfor %}      {% assign uniqueDepartments = departments | uniq | sort %}{% for department in uniqueDepartments %}
-        "name": "{{department}}",
-        "children": [
-          { {% for item in items %}{% if item.d == department %}
-            "name": "{{item.n}}",
-            "children": [
-              {
-                "name": "Profile", "url": "{{item.a}}","imagelink":  "{{item.pic}}", "size": 7074
-              }{% endif %}  {% endfor %}    {% endfor %}  {% endfor %}
-                        ]
-          },
-                    ]
-      }
+      
+      }, {% endfor %}
                 ]
-  }
+  },
             ]
 }    
