@@ -1,0 +1,6 @@
+Process so far
+
+- query for csv using queries
+- put csv into mister nester
+- adjust with some find replace (can also do this before mister nester)
+- adjust based on d3 visualization
