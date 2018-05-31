@@ -1,0 +1,248 @@
+{
+  "Tableware": {
+    "Bowls/Cups": {
+      "Chawan": {
+        "Yunomi (teacup)": [
+          {
+            "Category": "Tableware",
+            "Type": "Bowls/Cups",
+            "Form": "Chawan",
+            "SpecifcForm": "Yunomi (teacup)",
+            "Description": "Teacups come in a  variety of sizes and range in shape from hemispherical to cylindrical (Costello et. al 2001:36).",
+            "url": "../browse.html#Yunomi (teacup)"
+          }
+        ],
+        "Kobachi (small bowl)": [
+          {
+            "Category": "Tableware",
+            "Type": "Bowls/Cups",
+            "Form": "Chawan",
+            "SpecifcForm": "Kobachi (small bowl)",
+            "Description": "A bowl used for small portions of food or side dishes (Simpson et al. 1980:83).",
+            "url": "../browse.html#Kobachi (small bowl)"
+          }
+        ],
+        "Gohan Chawan (rice bowl)": [
+          {
+            "Category": "Tableware",
+            "Type": "Bowls/Cups",
+            "Form": "Chawan",
+            "SpecifcForm": "Gohan Chawan (rice bowl)",
+            "Description": "Some researchers refer to these as rice/soup bowls because they could be used for either food (Bibb 2013:[10]; Costello et. al 2001:34).",
+            "url": "../browse.html#Gohan Chawan (rice bowl)"
+          }
+        ],
+        "Futa (bowl lid)": [
+          {
+            "Category": "Tableware",
+            "Type": "Bowls/Cups",
+            "Form": "Chawan",
+            "SpecifcForm": "Futa (bowl lid)",
+            "Description": "Bowl lids are shallow bowls that sit inside rice/soup bowl rims (Gorham 1971:185, 193).",
+            "url": "../browse.html#Futa (bowl lid)"
+          }
+        ],
+        "Chawan (indeterminate bowl)": [
+          {
+            "Category": "Tableware",
+            "Type": "Bowls/Cups",
+            "Form": "Chawan",
+            "SpecifcForm": "Chawan (indeterminate bowl)",
+            "Description": "Used when a more specific chawan form cannot be determined.",
+            "url": "../browse.html#Chawan (indeterminate bowl)"
+          }
+        ]
+      },
+      "": {
+        "Soba Choko (cold noodle cup)": [
+          {
+            "Category": "Tableware",
+            "Type": "Bowls/Cups",
+            "Form": "",
+            "SpecifcForm": "Soba Choko (cold noodle cup)",
+            "Description": "A small cup for soba noodle sauce with a flat bottom and straight walls (Costello et. al 2001:36). ",
+            "url": "../browse.html#Soba Choko (cold noodle cup)"
+          }
+        ],
+        "Donburi (large soup bowl)": [
+          {
+            "Category": "Tableware",
+            "Type": "Bowls/Cups",
+            "Form": "",
+            "SpecifcForm": "Donburi (large soup bowl)",
+            "Description": "A large, deep bowl used for soup or don (Costello et. al 2001:35; Simpson et al. 1980:83).",
+            "url": "../browse.html#Donburi (large soup bowl)"
+          }
+        ]
+      }
+    },
+    "Dish/Plate": {
+      "": {
+        "Kozara (small dish/plate)": [
+          {
+            "Category": "Tableware",
+            "Type": "Dish/Plate",
+            "Form": "",
+            "SpecifcForm": "Kozara (small dish/plate)",
+            "Description": "Kozara are used to hold small portions of specialty foods. They sometimes have lids (Ross 2012:10).",
+            "url": "../browse.html#Kozara (small dish/plate)"
+          }
+        ],
+        "Nakazara (medium dish/plate)": [
+          {
+            "Category": "Tableware",
+            "Type": "Dish/Plate",
+            "Form": "",
+            "SpecifcForm": "Nakazara (medium dish/plate)",
+            "Description": "A nakazara is a shallow dish or plate with rim diameters between about 18 and 21 cm (Ross 2012:10; Simpson et al. 2014:87).",
+            "url": "../browse.html#Nakazara (medium dish/plate)"
+          }
+        ],
+        "Hirabachi (large dish/plate)": [
+          {
+            "Category": "Tableware",
+            "Type": "Dish/Plate",
+            "Form": "",
+            "SpecifcForm": "Hirabachi (large dish/plate)",
+            "Description": "A larger serving dish with a shallow hollow profile (Simpson et al. 2014:87,90).",
+            "url": "../browse.html#Hirabachi (large dish/plate)"
+          }
+        ],
+        "Mamezari (sauce dish/plate)": [
+          {
+            "Category": "Tableware",
+            "Type": "Dish/Plate",
+            "Form": "",
+            "SpecifcForm": "Mamezari (sauce dish/plate)",
+            "Description": "Mamezari are very small dishes for condiments or sweets (Walter 2012:128).",
+            "url": "../browse.html#Mamezari (sauce dish/plate)"
+          }
+        ],
+        "Namasu-Zara (pickle dish/plate)": [
+          {
+            "Category": "Tableware",
+            "Type": "Dish/Plate",
+            "Form": "",
+            "SpecifcForm": "Namasu-Zara (pickle dish/plate)",
+            "Description": "Used for pickled vegetables, namasu-zara are a deep dishes with a large footring (Bibb 2013:[4]).",
+            "url": "../browse.html#Namasu-Zara (pickle dish/plate)"
+          }
+        ],
+        "Sara (indeterminate dish/plate)": [
+          {
+            "Category": "Tableware",
+            "Type": "Dish/Plate",
+            "Form": "",
+            "SpecifcForm": "Sara (indeterminate dish/plate)",
+            "Description": "General term for a dish/plate of an indeterminate size.",
+            "url": "../browse.html#Sara (indeterminate dish/plate)"
+          }
+        ]
+      }
+    },
+    "Teapots": {
+      "": {
+        "Kyusu (small teapot)": [
+          {
+            "Category": "Tableware",
+            "Type": "Teapots",
+            "Form": "",
+            "SpecifcForm": "Kyusu (small teapot)",
+            "Description": "These are smaller teapots designed for individual use that have a projecting side handle (Ross 2012:12).",
+            "url": "../browse.html#Kyusu (small teapot)"
+          }
+        ],
+        "Dobin (large teapot)": [
+          {
+            "Category": "Tableware",
+            "Type": "Teapots",
+            "Form": "",
+            "SpecifcForm": "Dobin (large teapot)",
+            "Description": "Dobin are larger teapots with a detachable top handle used to serve tea at family meals (Cort 2000:230–231).",
+            "url": "../browse.html#Dobin (large teapot)"
+          }
+        ],
+        "Indeterminate Teapot": [
+          {
+            "Category": "Tableware",
+            "Type": "Teapots",
+            "Form": "",
+            "SpecifcForm": "Indeterminate Teapot",
+            "Description": "A teapot for which a type/function could not be determined.",
+            "url": "../browse.html#Indeterminate Teapot"
+          }
+        ]
+      }
+    }
+  },
+  "Sake ware": {
+    "Cups": {
+      "": {
+        "Ochoko (small sake cup)": [
+          {
+            "Category": "Sake ware",
+            "Type": "Cups",
+            "Form": "",
+            "SpecifcForm": "Ochoko (small sake cup)",
+            "Description": "Many larger sake cups are within the size range for teacups and can be used for either beverage; ochoko are exclusively for sake (Leland E. Bibb 2015, elec. comm.).",
+            "url": "../browse.html#Ochoko (small sake cup)"
+          }
+        ],
+        "Guinomi (large sake cup)": [
+          {
+            "Category": "Sake ware",
+            "Type": "Cups",
+            "Form": "",
+            "SpecifcForm": "Guinomi (large sake cup)",
+            "Description": "Guinomi sizes and shapes are variable but they generally have thin walls and often have everted rims (Ross 2012:10). The largest guinomi can overlap in size with smaller teacups.  ",
+            "url": "../browse.html#Guinomi (large sake cup)"
+          }
+        ],
+        "Sakazuki (indeterminate sake cup)": [
+          {
+            "Category": "Sake ware",
+            "Type": "Cups",
+            "Form": "",
+            "SpecifcForm": "Sakazuki (indeterminate sake cup)",
+            "Description": "General term for a sake cup of indeterminate size/function.",
+            "url": "../browse.html#Sakazuki (indeterminate sake cup)"
+          }
+        ]
+      }
+    },
+    "Decanters": {
+      "": {
+        "Kampin Tokkuri (round decanter)": [
+          {
+            "Category": "Sake ware",
+            "Type": "Decanters",
+            "Form": "",
+            "SpecifcForm": "Kampin Tokkuri (round decanter)",
+            "Description": "A kampin tokkuri is a decanter used to heat and serve sake that has a round body and tall neck (Cort 2000:231, 210).",
+            "url": "../browse.html#Kampin Tokkuri (round decanter)"
+          }
+        ],
+        "Sorori Tokkuri (slender decanter)": [
+          {
+            "Category": "Sake ware",
+            "Type": "Decanters",
+            "Form": "",
+            "SpecifcForm": "Sorori Tokkuri (slender decanter)",
+            "Description": "A tall, slender decanter used for heating and serving “thick, unrefined sake” (Cort 2000:231).",
+            "url": "../browse.html#Sorori Tokkuri (slender decanter)"
+          }
+        ],
+        "Tokkuri (indeterminate sake decanter)": [
+          {
+            "Category": "Sake ware",
+            "Type": "Decanters",
+            "Form": "",
+            "SpecifcForm": "Tokkuri (indeterminate sake decanter)",
+            "Description": "General term for a sake decanter of indeterminate size/function.",
+            "url": "../browse.html#Tokkuri (indeterminate sake decanter)"
+          }
+        ]
+      }
+    }
+  }
+}
